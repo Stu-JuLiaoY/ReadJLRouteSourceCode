@@ -50,7 +50,7 @@
         
         NSString *path = [components percentEncodedPath];
         
-        // handle fragment if needed
+        // handle fragment if needed    scheme://host:port/path?query#fragment:
         if (components.fragment != nil) {
             BOOL fragmentContainsQueryParams = NO;
             NSURLComponents *fragmentComponents = [NSURLComponents componentsWithString:components.percentEncodedFragment];

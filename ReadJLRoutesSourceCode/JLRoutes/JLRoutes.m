@@ -80,7 +80,7 @@ static BOOL shouldDecodePlusSymbols = YES;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        // 静态字典初始化。这里可以看到 map是全局唯一的。
+        // 静态变量(字典)初始化。这里可以看到 map是全局唯一的。
         routeControllersMap = [[NSMutableDictionary alloc] init];
     });
     
@@ -266,8 +266,10 @@ static BOOL shouldDecodePlusSymbols = YES;
     [self _verboseLog:@"Trying to route URL %@", URL];
     
     BOOL didRoute = NO;
+    // 初始化 JLRRouteRequest 对象，传入 URL。
     JLRRouteRequest *request = [[JLRRouteRequest alloc] initWithURL:URL];
     
+    // 遍历已经注册的 JLRRouteDefinition 对象。Line:228
     for (JLRRouteDefinition *route in [self.routes copy]) {
         // check each route for a matching response
         JLRRouteResponse *response = [route routeResponseForRequest:request decodePlusSymbols:shouldDecodePlusSymbols];

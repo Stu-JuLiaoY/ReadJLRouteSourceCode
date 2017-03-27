@@ -56,8 +56,10 @@
 {
     BOOL patternContainsWildcard = [self.patternComponents containsObject:@"*"];
     
+    // 判断 ，如果路径组件的count 不等于注册时候的路径组件的个数，并且不存在通配符
     if (request.pathComponents.count != self.patternComponents.count && !patternContainsWildcard) {
         // definitely not a match, nothing left to do
+        // 返回 invalidMatch
         return [JLRRouteResponse invalidMatchResponse];
     }
     
@@ -65,6 +67,7 @@
     NSMutableDictionary *routeParams = [NSMutableDictionary dictionary];
     BOOL isMatch = YES;
     NSUInteger index = 0;
+    
     
     for (NSString *patternComponent in self.patternComponents) {
         NSString *URLComponent = nil;
@@ -114,6 +117,8 @@
     return response;
 }
 
+
+// 去掉 `/` 、`:`、`#`
 - (NSString *)variableNameForValue:(NSString *)value
 {
     NSString *name = [value substringFromIndex:1];
@@ -131,6 +136,7 @@
 
 - (NSString *)variableValueForValue:(NSString *)value decodePlusSymbols:(BOOL)decodePlusSymbols
 {
+    // url 解码 ，主要是处理中文的问题
     NSString *var = [value stringByRemovingPercentEncoding];
     
     if (var.length > 1 && [var characterAtIndex:var.length - 1] == '#') {
